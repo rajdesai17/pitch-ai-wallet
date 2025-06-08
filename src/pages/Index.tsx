@@ -155,25 +155,25 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <div className="glass border-b border-white/10 p-6">
+      <div className="bg-white/90 backdrop-blur-lg border-b border-gray-100 p-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={handleBackToLanding}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-slate-600 hover:text-slate-900"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
             <div>
-              <h1 className="text-3xl font-bold gradient-primary bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-slate-900">
                 💼 InvestorBot
               </h1>
-              <p className="text-sm text-muted-foreground">AI-Powered Startup Pitch Evaluator</p>
+              <p className="text-sm text-slate-600">AI-Powered Startup Pitch Evaluator</p>
             </div>
           </div>
         </div>
@@ -209,10 +209,10 @@ const Index = () => {
           {/* Loading indicator */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="glass p-6 rounded-2xl rounded-bl-md border max-w-[80%]">
+              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl rounded-bl-md border border-gray-100 max-w-[80%]">
                 <div className="flex items-center space-x-3">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                  <span className="text-muted-foreground">Thinking...</span>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-slate-700"></div>
+                  <span className="text-slate-600">Thinking...</span>
                 </div>
               </div>
             </div>
@@ -238,9 +238,9 @@ const Index = () => {
       />
 
       {/* Footer */}
-      <div className="glass border-t border-white/10 p-4">
+      <div className="bg-white/90 backdrop-blur-lg border-t border-gray-100 p-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-slate-500">
             Built with Gemini Pro + Payman SDK
           </p>
         </div>

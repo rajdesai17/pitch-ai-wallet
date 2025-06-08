@@ -15,10 +15,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
       isUser ? "justify-end" : "justify-start"
     )}>
       <div className={cn(
-        "max-w-[85%] p-6 rounded-2xl glass transition-all duration-300 hover:scale-[1.02]",
+        "max-w-[85%] p-6 rounded-2xl transition-all duration-300 hover:scale-[1.02]",
         isUser 
-          ? "gradient-primary text-white rounded-br-md shadow-lg" 
-          : "bg-card/50 rounded-bl-md border shadow-sm"
+          ? "bg-slate-900 text-white rounded-br-md shadow-sm" 
+          : "bg-white/80 backdrop-blur-sm rounded-bl-md border border-gray-100 shadow-sm"
       )}>
         <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">{message}</p>
         {timestamp && (

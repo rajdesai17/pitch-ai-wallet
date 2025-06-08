@@ -22,8 +22,8 @@ const WalletInput: React.FC<WalletInputProps> = ({ onWalletSubmit, isVisible }) 
 
   return (
     <div className="w-full max-w-md mx-auto mb-6">
-      <div className="glass p-6 rounded-2xl border">
-        <h3 className="text-lg font-semibold mb-4 text-center">
+      <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <h3 className="text-lg font-semibold mb-4 text-center text-slate-900">
           🎯 Great pitch! Enter your wallet address to receive funding:
         </h3>
         
@@ -33,12 +33,12 @@ const WalletInput: React.FC<WalletInputProps> = ({ onWalletSubmit, isVisible }) 
             placeholder="0x1234567890abcdef..."
             value={walletAddress}
             onChange={(e) => setWalletAddress(e.target.value)}
-            className="glass border-white/20 text-white placeholder:text-white/60"
+            className="border-gray-200 focus:border-slate-400"
           />
           
           <Button 
             type="submit" 
-            className="w-full gradient-primary text-white font-medium"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium"
             disabled={!walletAddress.trim()}
           >
             Submit Wallet Address

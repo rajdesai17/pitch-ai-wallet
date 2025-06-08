@@ -11,16 +11,16 @@ interface PaymentCardProps {
 const PaymentCard: React.FC<PaymentCardProps> = ({ amount, transactionId, walletAddress }) => {
   return (
     <div className="w-full max-w-md mx-auto mb-6">
-      <div className="glass p-6 rounded-2xl border gradient-success">
+      <div className="bg-green-50 border border-green-200 p-6 rounded-2xl shadow-sm">
         <div className="flex items-center justify-center mb-4">
-          <CheckCircle className="w-12 h-12 text-white" />
+          <CheckCircle className="w-12 h-12 text-green-600" />
         </div>
         
-        <div className="text-center text-white">
+        <div className="text-center text-green-800">
           <h3 className="text-xl font-bold mb-2">Payment Sent! 🎉</h3>
           <p className="text-lg mb-4">${amount} TSD</p>
           
-          <div className="space-y-2 text-sm opacity-90">
+          <div className="space-y-2 text-sm text-green-700">
             <div>
               <span className="font-medium">To: </span>
               <span className="font-mono">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
