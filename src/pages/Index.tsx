@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
@@ -76,13 +75,13 @@ const Index = () => {
         } else {
           // All questions answered, evaluate
           setChatState('evaluating');
-          const eval = await mockEvaluateApi(newAnswers);
-          setEvaluation(eval);
+          const pitchEvaluation = await mockEvaluateApi(newAnswers);
+          setEvaluation(pitchEvaluation);
           
-          const evaluationText = `## Evaluation Complete! 📊\n\n**Score: ${eval.score}/10**\n\n${eval.feedback}`;
+          const evaluationText = `## Evaluation Complete! 📊\n\n**Score: ${pitchEvaluation.score}/10**\n\n${pitchEvaluation.feedback}`;
           addMessage(evaluationText, false);
           
-          if (eval.score >= 7.5) {
+          if (pitchEvaluation.score >= 7.5) {
             setChatState('wallet');
           } else {
             setChatState('complete');
