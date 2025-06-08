@@ -11,18 +11,18 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp }) => {
   return (
     <div className={cn(
-      "flex w-full mb-4",
+      "flex w-full",
       isUser ? "justify-end" : "justify-start"
     )}>
       <div className={cn(
-        "max-w-[80%] p-4 rounded-2xl glass",
+        "max-w-[85%] p-6 rounded-2xl glass transition-all duration-300 hover:scale-[1.02]",
         isUser 
-          ? "gradient-primary text-white rounded-br-md" 
-          : "bg-card/50 rounded-bl-md border"
+          ? "gradient-primary text-white rounded-br-md shadow-lg" 
+          : "bg-card/50 rounded-bl-md border shadow-sm"
       )}>
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message}</p>
+        <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">{message}</p>
         {timestamp && (
-          <p className="text-xs opacity-60 mt-2">
+          <p className="text-xs opacity-60 mt-3 font-light">
             {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         )}

@@ -3,12 +3,17 @@ import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 import WalletInput from '@/components/WalletInput';
 import PaymentCard from '@/components/PaymentCard';
+import Landing from '@/components/Landing';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import { Message, PitchEvaluation, PaymentResult } from '@/types/chat';
 import { mockAskApi, mockEvaluateApi, mockPayApi } from '@/utils/mockApi';
 
 type ChatState = 'initial' | 'asking' | 'evaluating' | 'wallet' | 'payment' | 'complete';
+type AppState = 'landing' | 'chat';
 
 const Index = () => {
+  const [appState, setAppState] = useState<AppState>('landing');
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -36,6 +41,30 @@ const Index = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleStartPitching = () => {
+    setAppState('chat');
+  };
+
+  const handleBackToLanding = () => {
+    setAppState('landing');
+    // Reset chat state
+    setChatState('initial');
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setAnswers([]);
+    setEvaluation(null);
+    setPaymentResult(null);
+    setWalletAddress('');
+    setMessages([
+      {
+        id: '1',
+        content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (7.5+/10) receive test funding via Payman!\n\nWhat's your startup idea?",
+        isUser: false,
+        timestamp: new Date()
+      }
+    ]);
+  };
 
   const addMessage = (content: string, isUser: boolean) => {
     const newMessage: Message = {
@@ -121,21 +150,38 @@ const Index = () => {
     }
   };
 
+  if (appState === 'landing') {
+    return <Landing onStartPitching={handleStartPitching} />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="glass border-b border-white/10 p-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
-            💼 InvestorBot
-          </h1>
-          <p className="text-sm text-muted-foreground">AI-Powered Startup Pitch Evaluator</p>
+      <div className="glass border-b border-white/10 p-6">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleBackToLanding}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <div>
+              <h1 className="text-3xl font-bold gradient-primary bg-clip-text text-transparent">
+                💼 InvestorBot
+              </h1>
+              <p className="text-sm text-muted-foreground">AI-Powered Startup Pitch Evaluator</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 pb-20">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 pb-32">
+        <div className="max-w-4xl mx-auto space-y-6">
           {messages.map((message) => (
             <ChatMessage
               key={message.id}
@@ -163,10 +209,10 @@ const Index = () => {
           {/* Loading indicator */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="glass p-4 rounded-2xl rounded-bl-md border max-w-[80%]">
-                <div className="flex items-center space-x-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                  <span className="text-sm text-muted-foreground">Thinking...</span>
+              <div className="glass p-6 rounded-2xl rounded-bl-md border max-w-[80%]">
+                <div className="flex items-center space-x-3">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                  <span className="text-muted-foreground">Thinking...</span>
                 </div>
               </div>
             </div>
@@ -192,7 +238,7 @@ const Index = () => {
       />
 
       {/* Footer */}
-      <div className="glass border-t border-white/10 p-3">
+      <div className="glass border-t border-white/10 p-4">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-xs text-muted-foreground">
             Built with Gemini Pro + Payman SDK
