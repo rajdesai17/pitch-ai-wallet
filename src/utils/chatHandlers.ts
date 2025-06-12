@@ -1,15 +1,15 @@
-
-import { mockAskApi, mockEvaluateApi, mockPayApi } from './mockApi';
+import { askGeminiApi, evaluateGeminiApi, payWithPayman } from './mockApi';
+import type { PitchEvaluation, PaymentResult } from '../types/chat';
 
 export const handleInitialPitch = async (
   message: string,
-  setChatState: (state: any) => void,
+  setChatState: (state: string) => void,
   setQuestions: (questions: string[]) => void,
   setCurrentQuestionIndex: (index: number) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {
   setChatState('asking');
-  const followUpQuestions = await mockAskApi(message);
+  const followUpQuestions = await askGeminiApi(message);
   setQuestions(followUpQuestions);
   setCurrentQuestionIndex(0);
   
@@ -24,8 +24,8 @@ export const handleQuestionAnswer = async (
   questions: string[],
   setAnswers: (answers: string[]) => void,
   setCurrentQuestionIndex: (index: number) => void,
-  setChatState: (state: any) => void,
-  setEvaluation: (evaluation: any) => void,
+  setChatState: (state: string) => void,
+  setEvaluation: (evaluation: PitchEvaluation) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {
   const newAnswers = [...answers, message];
@@ -40,13 +40,13 @@ export const handleQuestionAnswer = async (
   } else {
     // All questions answered, evaluate
     setChatState('evaluating');
-    const pitchEvaluation = await mockEvaluateApi(newAnswers);
+    const pitchEvaluation = await evaluateGeminiApi(newAnswers);
     setEvaluation(pitchEvaluation);
     
-    const evaluationText = `## Evaluation Complete! 📊\n\n**Score: ${pitchEvaluation.score}/10**\n\n${pitchEvaluation.feedback}`;
+    const evaluationText = `Score: ${pitchEvaluation.score}/10\n${pitchEvaluation.feedback}`;
     addMessage(evaluationText, false);
     
-    if (pitchEvaluation.score >= 7.5) {
+    if (pitchEvaluation.score >= 4.5) {
       setChatState('wallet');
     } else {
       setChatState('complete');
@@ -58,8 +58,8 @@ export const handleQuestionAnswer = async (
 export const handlePayment = async (
   address: string,
   setWalletAddress: (address: string) => void,
-  setChatState: (state: any) => void,
-  setPaymentResult: (result: any) => void,
+  setChatState: (state: string) => void,
+  setPaymentResult: (result: PaymentResult) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {
   setWalletAddress(address);
@@ -68,7 +68,7 @@ export const handlePayment = async (
   addMessage(`Wallet address received: ${address}`, true);
   addMessage("Processing payment... 💳", false);
 
-  const payment = await mockPayApi(address);
+  const payment = await payWithPayman(address);
   setPaymentResult(payment);
   setChatState('complete');
   

@@ -1,5 +1,6 @@
-
 import { PitchEvaluation, PaymentResult } from '@/types/chat';
+import payman from '../lib/payman';
+import ai from '../lib/gemini';
 
 // Mock follow-up questions
 const mockQuestions = [
@@ -23,7 +24,7 @@ export const mockEvaluateApi = async (answers: string[]): Promise<PitchEvaluatio
   await new Promise(resolve => setTimeout(resolve, 2000));
   
   // Mock scoring logic - random but weighted towards higher scores for demo
-  const score = Math.floor(Math.random() * 3) + 7.5; // 7.5-10.5, then clamped
+  const score = Math.floor(Math.random() * 3) + 4.5; // 4.5-10.5, then clamped
   const finalScore = Math.min(10, Math.max(1, score));
   
   const feedbacks = [
@@ -40,16 +41,75 @@ export const mockEvaluateApi = async (answers: string[]): Promise<PitchEvaluatio
   };
 };
 
-export const mockPayApi = async (walletAddress: string): Promise<PaymentResult> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 2500));
-  
-  const amount = Math.floor(Math.random() * 51) + 50; // $50-$100
-  const transactionId = `0x${Math.random().toString(16).substr(2, 8)}...${Math.random().toString(16).substr(2, 6)}`;
-  
+export const payWithPayman = async (walletAddress: string): Promise<PaymentResult> => {
+  try {
+    const amount = Math.floor(Math.random() * 51) + 50;
+    const command = `Send ${amount} TSD to ${walletAddress}`;
+    const response = await payman.ask(command);
+    console.log("Payman SDK response:", response);
+    const transactionId = response?.transactionId || response?.id || 'unknown';
+    return {
+      amount,
+      transactionId,
+      success: !!transactionId && transactionId !== 'unknown'
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Payman SDK error:", error.message);
+    } else {
+      console.error("Payman SDK error:", error);
+    }
+    return {
+      amount: 0,
+      transactionId: '',
+      success: false
+    };
+  }
+};
+
+export const askGeminiApi = async (pitch: string): Promise<string[]> => {
+  // Prompt Gemini to generate 4-5 concise, investor-style follow-up questions
+  const prompt = `You are a professional startup investor. Given this startup pitch, ask 4-5 brief, direct, and insightful follow-up questions to evaluate the idea. Format your response as a numbered list, no extra commentary, no greetings, no explanations.\n\nPitch: ${pitch}\n\nQuestions:`;
+  const response = await ai.models.generateContent({
+    model: 'gemini-1.5-flash',
+    contents: prompt,
+  });
+  // Extract questions from Gemini's response (split by line or number)
+  const text = response.text || '';
+  // Sanitize: remove empty lines, trim, remove extra whitespace, keep only 4-5
+  const questions = text
+    .split(/\n|\r/)
+    .map(q => q.replace(/^\d+\.|^- /, '').trim())
+    .filter(q => q.length > 0 && q.length < 200)
+    .slice(0, 5);
+  return questions;
+};
+
+export const evaluateGeminiApi = async (answers: string[]): Promise<PitchEvaluation> => {
+  // Prompt Gemini to carefully read and understand the user's answers and pitch before evaluating
+  const qa = answers.map((a, i) => `Q${i+1}: ${a}`).join('\n');
+  const prompt = `You are a professional startup investor. Carefully read and understand the user's pitch and answers below. Score the startup idea from 1-10 based on the actual content. Then, provide a numbered list of 2-3 factual strengths or risks, referencing specific details or reasoning from the user's input (no generic praise). Finish with a one-sentence summary verdict that reflects your real investor judgment. Be concise, realistic, and direct.\n\nQ&A:\n${qa}\n\nRespond in this format:\nScore: <number>\nStrengths/Risks:\n1. <fact or risk, referencing user input>\n2. <fact or risk, referencing user input>\n3. <fact or risk, referencing user input> (optional)\nVerdict: <one-sentence summary>`;
+  const response = await ai.models.generateContent({
+    model: 'gemini-1.5-flash',
+    contents: prompt,
+  });
+  const text = response.text || '';
+  // Extract score, strengths/risks, and verdict
+  const scoreMatch = text.match(/Score:\s*([\d.]+)/i);
+  const factsMatch = text.match(/Strengths\/Risks:\s*([\s\S]*?)Verdict:/i);
+  const verdictMatch = text.match(/Verdict:\s*([\s\S]*)/i);
+  const score = scoreMatch ? parseFloat(scoreMatch[1]) : 0;
+  let feedback = '';
+  if (factsMatch) {
+    feedback += factsMatch[1].replace(/\s+/g, ' ').replace(/\n/g, ' ').trim();
+  }
+  if (verdictMatch) {
+    feedback += (feedback ? ' ' : '') + verdictMatch[1].replace(/\s+/g, ' ').replace(/\n/g, ' ').trim();
+  }
+  if (!feedback) feedback = text.trim();
+  if (feedback.length > 250) feedback = feedback.slice(0, 247) + '...';
   return {
-    amount,
-    transactionId,
-    success: true
+    score,
+    feedback,
   };
 };

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ChatInput from '@/components/ChatInput';
 import Landing from '@/components/Landing';
@@ -41,6 +40,13 @@ const Index = () => {
   const handleBackToLanding = () => {
     setAppState('landing');
     resetChatState();
+  };
+
+  const handleConnectPayman = () => {
+    const clientId = import.meta.env.VITE_PAYMAN_CLIENT_ID;
+    const redirectUri = encodeURIComponent(window.location.origin + '/oauth-callback');
+    const oauthUrl = `https://app.paymanai.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=payments`;
+    window.location.href = oauthUrl;
   };
 
   const handleSendMessage = async (message: string) => {
@@ -97,7 +103,7 @@ const Index = () => {
   };
 
   if (appState === 'landing') {
-    return <Landing onStartPitching={handleStartPitching} />;
+    return <Landing onStartPitching={handleStartPitching} onConnectPayman={handleConnectPayman} />;
   }
 
   return (
@@ -113,11 +119,22 @@ const Index = () => {
         onWalletSubmit={handleWalletSubmit}
       />
 
-      <ChatInput
-        onSendMessage={handleSendMessage}
-        disabled={shouldDisableChatInput(chatState, isLoading)}
-        placeholder={getChatPlaceholder(chatState)}
-      />
+      {chatState === 'complete' ? (
+        <div className="flex justify-center mt-6 mb-4">
+          <button
+            onClick={handleBackToLanding}
+            className="bg-slate-900 hover:bg-slate-800 text-white text-lg px-8 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200"
+          >
+            Go Back
+          </button>
+        </div>
+      ) : (
+        <ChatInput
+          onSendMessage={handleSendMessage}
+          disabled={shouldDisableChatInput(chatState, isLoading)}
+          placeholder={getChatPlaceholder(chatState)}
+        />
+      )}
 
       {/* Footer */}
       <div className="bg-white/90 backdrop-blur-lg border-t border-gray-100 p-4">

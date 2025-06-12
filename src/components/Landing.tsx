@@ -1,13 +1,13 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles, TrendingUp, Zap } from 'lucide-react';
 
 interface LandingProps {
   onStartPitching: () => void;
+  onConnectPayman: () => void;
 }
 
-const Landing: React.FC<LandingProps> = ({ onStartPitching }) => {
+const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
       {/* Background Elements */}
@@ -71,13 +71,21 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching }) => {
         </div>
 
         {/* CTA Button */}
-        <Button 
-          onClick={onStartPitching}
-          className="bg-slate-900 hover:bg-slate-800 text-white text-xl px-12 py-6 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg"
-        >
-          <Sparkles className="w-6 h-6 mr-3" />
-          Pitch Your Idea
-        </Button>
+        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+          <Button 
+            onClick={onStartPitching}
+            className="bg-slate-900 hover:bg-slate-800 text-white text-xl px-12 py-6 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg"
+          >
+            <Sparkles className="w-6 h-6 mr-3" />
+            Pitch Your Idea
+          </Button>
+          {/* <Button
+            onClick={onConnectPayman}
+            className="bg-green-700 hover:bg-green-600 text-white text-xl px-8 py-6 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg"
+          >
+            Connect Payman
+          </Button> */}
+        </div>
 
         {/* Subtitle */}
         <p className="text-sm text-slate-500 mt-8">
