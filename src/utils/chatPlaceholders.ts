@@ -8,7 +8,7 @@ export const getChatPlaceholder = (chatState: ChatState): string => {
     case 'asking':
       return "Answer the question above...";
     case 'wallet':
-      return "Please enter your wallet address above";
+      return "Please enter your Payman Payee ID above";
     default:
       return "Chat completed!";
   }

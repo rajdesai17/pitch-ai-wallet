@@ -4,17 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 interface WalletInputProps {
-  onWalletSubmit: (address: string) => void;
+  onWalletSubmit: (payeeId: string) => void;
   isVisible: boolean;
 }
 
 const WalletInput: React.FC<WalletInputProps> = ({ onWalletSubmit, isVisible }) => {
-  const [walletAddress, setWalletAddress] = useState('');
+  const [payeeId, setPayeeId] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (walletAddress.trim()) {
-      onWalletSubmit(walletAddress.trim());
+    if (payeeId.trim()) {
+      onWalletSubmit(payeeId.trim());
     }
   };
 
@@ -22,26 +22,35 @@ const WalletInput: React.FC<WalletInputProps> = ({ onWalletSubmit, isVisible }) 
 
   return (
     <div className="w-full max-w-md mx-auto mb-6">
-      <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4 text-center text-slate-900">
-          🎯 Great pitch! Enter your wallet address to receive funding:
+      <div className="bg-white border border-gray-100 p-6 rounded-xl shadow-sm">
+        <h3 className="text-lg font-medium mb-4 text-center text-gray-900">
+          🎯 Congratulations! Enter your Payman Payee ID to receive funding:
         </h3>
         
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            type="text"
-            placeholder="0x1234567890abcdef..."
-            value={walletAddress}
-            onChange={(e) => setWalletAddress(e.target.value)}
-            className="border-gray-200 focus:border-slate-400"
-          />
+          <div>
+            <label htmlFor="payeeId" className="block text-sm font-medium text-gray-700 mb-2">
+              Payman Payee ID
+            </label>
+            <Input
+              id="payeeId"
+              type="text"
+              placeholder="e.g., user@example.com or @username"
+              value={payeeId}
+              onChange={(e) => setPayeeId(e.target.value)}
+              className="border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Enter your Payman username, email, or Paytag
+            </p>
+          </div>
           
           <Button 
             type="submit" 
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium"
-            disabled={!walletAddress.trim()}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium"
+            disabled={!payeeId.trim()}
           >
-            Submit Wallet Address
+            Submit Payee ID
           </Button>
         </form>
       </div>
