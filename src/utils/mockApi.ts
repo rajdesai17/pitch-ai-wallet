@@ -24,7 +24,7 @@ export const mockEvaluateApi = async (answers: string[]): Promise<PitchEvaluatio
   await new Promise(resolve => setTimeout(resolve, 2000));
   
   // Mock scoring logic - random but weighted towards higher scores for demo
-  const score = Math.floor(Math.random() * 3) + 4.5; // 4.5-10.5, then clamped
+  const score = Math.floor(Math.random() * 3) + .5; // 4.5-10.5, then clamped
   const finalScore = Math.min(10, Math.max(1, score));
   
   const feedbacks = [

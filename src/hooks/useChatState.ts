@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Message, PitchEvaluation, PaymentResult } from '@/types/chat';
 import { v4 as uuidv4 } from 'uuid';
 
-type ChatState = 'initial' | 'asking' | 'evaluating' | 'wallet' | 'payment' | 'complete';
+export type ChatState = 'initial' | 'asking' | 'evaluating' | 'wallet' | 'payment' | 'complete';
 
 export const useChatState = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: uuidv4(),
-      content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4.5+/10) receive test funding via Payman!\n\nWhat's your startup idea?",
+      content: "👋 Hey there! I’m AgentVC – your playful AI venture capitalist.\n\nPitch me your startup idea, and I’ll ask a few sharp questions to see if it’s fund-worthy. If you score 4 or above, I’ll drop some TSD (test dollars) via Payman 💸.\n\nSo… what’s your startup idea?",
       isUser: false,
       timestamp: new Date()
     }
@@ -44,7 +44,7 @@ export const useChatState = () => {
     setMessages([
       {
         id: uuidv4(),
-        content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4+/10) receive test funding via Payman!\n\nWhat's your startup idea?",
+        content: "👋 Hey there! I’m AgentVC – your playful AI venture capitalist.\n\nPitch me your startup idea, and I’ll ask a few sharp questions to see if it’s fund-worthy. If you score 4 or above, I’ll drop some TSD (test dollars) via Payman 💸.\n\nSo… what’s your startup idea?",
         isUser: false,
         timestamp: new Date()
       }

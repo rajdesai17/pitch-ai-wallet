@@ -1,9 +1,10 @@
 import { askGeminiApi, evaluateGeminiApi, payWithPayman } from './mockApi';
 import type { PitchEvaluation, PaymentResult } from '../types/chat';
+import type { ChatState } from '../hooks/useChatState';
 
 export const handleInitialPitch = async (
   message: string,
-  setChatState: (state: string) => void,
+  setChatState: (state: ChatState) => void,
   setQuestions: (questions: string[]) => void,
   setCurrentQuestionIndex: (index: number) => void,
   addMessage: (content: string, isUser: boolean) => void
@@ -24,7 +25,7 @@ export const handleQuestionAnswer = async (
   questions: string[],
   setAnswers: (answers: string[]) => void,
   setCurrentQuestionIndex: (index: number) => void,
-  setChatState: (state: string) => void,
+  setChatState: (state: ChatState) => void,
   setEvaluation: (evaluation: PitchEvaluation) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {
@@ -46,7 +47,7 @@ export const handleQuestionAnswer = async (
     const evaluationText = `Score: ${pitchEvaluation.score}/10\n${pitchEvaluation.feedback}`;
     addMessage(evaluationText, false);
     
-    if (pitchEvaluation.score >= 4.5) {
+    if (pitchEvaluation.score >= 6) {
       setChatState('wallet');
     } else {
       setChatState('complete');
@@ -58,7 +59,7 @@ export const handleQuestionAnswer = async (
 export const handlePayment = async (
   address: string,
   setWalletAddress: (address: string) => void,
-  setChatState: (state: string) => void,
+  setChatState: (state: ChatState) => void,
   setPaymentResult: (result: PaymentResult) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {

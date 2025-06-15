@@ -107,40 +107,41 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <ChatHeader onBackToLanding={handleBackToLanding} />
-      
-      <ChatContent
-        messages={messages}
-        paymentResult={paymentResult}
-        walletAddress={walletAddress}
-        chatState={chatState}
-        isLoading={isLoading}
-        onWalletSubmit={handleWalletSubmit}
-      />
-
-      {chatState === 'complete' ? (
-        <div className="flex justify-center mt-6 mb-4">
-          <button
-            onClick={handleBackToLanding}
-            className="bg-slate-900 hover:bg-slate-800 text-white text-lg px-8 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200"
-          >
-            Go Back
-          </button>
-        </div>
-      ) : (
-        <ChatInput
-          onSendMessage={handleSendMessage}
-          disabled={shouldDisableChatInput(chatState, isLoading)}
-          placeholder={getChatPlaceholder(chatState)}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <div className="w-full max-w-4xl flex flex-col flex-1 bg-white/95 rounded-2xl border border-gray-200 shadow-xl overflow-hidden min-h-[80vh]">
+        <ChatHeader onBackToLanding={handleBackToLanding} />
+        <ChatContent
+          messages={messages}
+          paymentResult={paymentResult}
+          walletAddress={walletAddress}
+          chatState={chatState}
+          isLoading={isLoading}
+          onWalletSubmit={handleWalletSubmit}
         />
-      )}
-
+        {chatState === 'complete' ? (
+          <div className="flex justify-center mt-6 mb-4">
+            <button
+              onClick={handleBackToLanding}
+              className="bg-slate-900 hover:bg-slate-800 text-white text-lg px-8 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200"
+            >
+              Go Back
+            </button>
+          </div>
+        ) : (
+          <ChatInput
+            onSendMessage={handleSendMessage}
+            disabled={shouldDisableChatInput(chatState, isLoading)}
+            placeholder={getChatPlaceholder(chatState)}
+          />
+        )}
+      </div>
       {/* Footer */}
-      <div className="bg-white/90 backdrop-blur-lg border-t border-gray-100 p-4">
+      <div className="bg-white/90 backdrop-blur-lg border-t border-gray-100 p-4 w-full">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-xs text-slate-500">
-            Built with Gemini Pro + Payman SDK
+            Built with Payman SDK
+            by @rajoninternet
+
           </p>
         </div>
       </div>

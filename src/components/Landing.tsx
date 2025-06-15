@@ -28,13 +28,11 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
 
         {/* Hero Text */}
         <h1 className="text-hero text-slate-900 mb-6 leading-tight">
-          InvestorBot
+          AgentVC
         </h1>
         
         <p className="text-subtitle text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Pitch your startup idea to our AI investor. Get smart feedback, 
-          detailed evaluation, and if your idea scores high enough — 
-          <span className="text-slate-800 font-medium"> receive test funding instantly</span>.
+          Pitch your startup to a playful AI VC. Get smart feedback. If it loves your idea, get mock-funded instantly.
         </p>
 
         {/* Features */}
@@ -43,9 +41,9 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
             <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="w-6 h-6 text-slate-700" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-slate-900">Smart Analysis</h3>
+            <h3 className="text-xl font-semibold mb-3 text-slate-900">Startup Check</h3>
             <p className="text-slate-600 leading-relaxed">
-              AI-powered evaluation with targeted follow-up questions to assess your startup potential
+              AgentVC asks smart, spicy follow-ups to evaluate your idea like a real VC.
             </p>
           </div>
 
@@ -53,9 +51,9 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
             <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Zap className="w-6 h-6 text-slate-700" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-slate-900">Instant Feedback</h3>
+            <h3 className="text-xl font-semibold mb-3 text-slate-900">Score & Feedback</h3>
             <p className="text-slate-600 leading-relaxed">
-              Get detailed scores and actionable insights to improve your pitch and business model
+              Get a score out of 10 plus blunt feedback to help you improve your pitch.
             </p>
           </div>
 
@@ -63,9 +61,9 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Sparkles className="w-6 h-6 text-green-700" />
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-slate-900">Test Funding</h3>
+            <h3 className="text-xl font-semibold mb-3 text-slate-900">Mock Funding</h3>
             <p className="text-slate-600 leading-relaxed">
-              High-scoring ideas (7.5+/10) receive test dollars via Payman to get you started
+              If you score 6+, AgentVC sends you startup money (TSD) via Payman.
             </p>
           </div>
         </div>
@@ -77,7 +75,7 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
             className="bg-slate-900 hover:bg-slate-800 text-white text-xl px-12 py-6 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg"
           >
             <Sparkles className="w-6 h-6 mr-3" />
-            Pitch Your Idea
+            Let's Go 🚀
           </Button>
           {/* <Button
             onClick={onConnectPayman}
@@ -89,7 +87,8 @@ const Landing: React.FC<LandingProps> = ({ onStartPitching, onConnectPayman }) =
 
         {/* Subtitle */}
         <p className="text-sm text-slate-500 mt-8">
-          Built with Gemini Pro + Payman SDK
+          Built with Payman SDK
+          by @rajoninternet
         </p>
       </div>
     </div>
