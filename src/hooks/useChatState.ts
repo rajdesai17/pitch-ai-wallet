@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Message, PitchEvaluation, PaymentResult } from '@/types/chat';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,7 +8,7 @@ export const useChatState = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: uuidv4(),
-      content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4+/10) receive funding directly to your Payman account!\n\nWhat's your startup idea?",
+      content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4.5+/10) receive test funding via Payman!\n\nWhat's your startup idea?",
       isUser: false,
       timestamp: new Date()
     }
@@ -45,7 +44,7 @@ export const useChatState = () => {
     setMessages([
       {
         id: uuidv4(),
-        content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4+/10) receive funding directly to your Payman account!\n\nWhat's your startup idea?",
+        content: "👋 Hi! I'm InvestorBot, your AI startup evaluator.\n\nPitch me your startup idea and I'll ask follow-up questions to evaluate if it's investment-worthy. Strong ideas (4+/10) receive test funding via Payman!\n\nWhat's your startup idea?",
         isUser: false,
         timestamp: new Date()
       }

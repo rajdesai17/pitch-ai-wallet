@@ -1,4 +1,3 @@
-
 import { askGeminiApi, evaluateGeminiApi, payWithPayman } from './mockApi';
 import type { PitchEvaluation, PaymentResult } from '../types/chat';
 
@@ -47,7 +46,7 @@ export const handleQuestionAnswer = async (
     const evaluationText = `Score: ${pitchEvaluation.score}/10\n${pitchEvaluation.feedback}`;
     addMessage(evaluationText, false);
     
-    if (pitchEvaluation.score >= 4) {
+    if (pitchEvaluation.score >= 4.5) {
       setChatState('wallet');
     } else {
       setChatState('complete');
@@ -57,25 +56,23 @@ export const handleQuestionAnswer = async (
 };
 
 export const handlePayment = async (
-  payeeId: string,
+  address: string,
   setWalletAddress: (address: string) => void,
   setChatState: (state: string) => void,
   setPaymentResult: (result: PaymentResult) => void,
   addMessage: (content: string, isUser: boolean) => void
 ) => {
-  setWalletAddress(payeeId);
+  setWalletAddress(address);
   setChatState('payment');
   
-  addMessage(`Payee ID received: ${payeeId}`, true);
-  addMessage("Processing payment via Payman AI... 💳", false);
+  addMessage(`Wallet address received: ${address}`, true);
+  addMessage("Processing payment... 💳", false);
 
-  const payment = await payWithPayman(payeeId);
+  const payment = await payWithPayman(address);
   setPaymentResult(payment);
   setChatState('complete');
   
   if (payment.success) {
-    addMessage("🎉 Congratulations! Your funding has been sent successfully via Payman AI. Check your account and good luck with your startup journey!", false);
-  } else {
-    addMessage("Payment failed. Please try again or contact support.", false);
+    addMessage("🎉 Congratulations! Your funding has been sent successfully. Check your wallet and good luck with your startup journey!", false);
   }
 };
